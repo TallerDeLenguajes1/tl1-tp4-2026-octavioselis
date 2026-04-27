@@ -20,6 +20,7 @@ typedef struct Lista{
 }Lista;
 
 void cargarTareasPendientes(Lista *lista, int *id);
+void transferirTareas(Lista *pendientes, Lista *realizadas);
 
 int main(){
 
@@ -42,6 +43,14 @@ int main(){
         fflush(stdin);
         scanf("%d",&pedirOtra);
     }while(pedirOtra==1);
+
+    do{
+        transferirTareas(&TareasPendientes,&TareasRealizadas);
+        printf("\nSi desea transferir otra tarea, presione '1': ");
+        fflush(stdin);
+        scanf("%d",&pedirOtra);
+    }while(pedirOtra==1);
+    
     
 
 
@@ -51,7 +60,7 @@ return 0;
 void cargarTareasPendientes(Lista *lista, int *id){
     Nodo *nuevoNodo = (Nodo*)malloc(sizeof(Nodo));
     nuevoNodo->T.TareaID = *id;
-    *id++;
+    (*id)++;
 
     char buff[100];
     printf("Ingrese la descripcion de la tarea: ");
@@ -65,4 +74,40 @@ void cargarTareasPendientes(Lista *lista, int *id){
     nuevoNodo->Siguiente = lista->L;
     lista->L=nuevoNodo;
     lista->cantidad++;
+}
+
+void transferirTareas(Lista *pendientes, Lista *realizadas){
+    if(pendientes->cantidad == 0){
+        printf("No hay tareas para transferir a 'REALIZADAS'\n");
+    }
+    else{
+        int idBuscado;
+        printf("\nIngrese el ID de la tarea que desea transferir a 'REALIZADAS': ");
+        fflush(stdin);
+        scanf("%d",&idBuscado);
+
+        Nodo *buscado = pendientes->L;
+        Nodo *ant = NULL;
+
+        while(buscado!=NULL && buscado->T.TareaID != idBuscado){
+            ant = buscado;
+            buscado = buscado->Siguiente;
+        }
+        if(buscado == NULL){
+            printf("ID= %d NO ENCONTRADO\n" , idBuscado);
+        }
+        else if(ant == NULL){
+            pendientes->L = buscado->Siguiente;
+        }
+        else{
+            ant->Siguiente = buscado->Siguiente;
+        }
+        if(buscado != NULL){
+            pendientes->cantidad--;
+
+            buscado->Siguiente = realizadas->L;
+            realizadas->L = buscado;
+            realizadas->cantidad++;
+        }     
+    }
 }
