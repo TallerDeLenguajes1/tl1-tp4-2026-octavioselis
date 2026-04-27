@@ -52,6 +52,18 @@ int main(){
         scanf("%d",&pedirOtra);
     }while(pedirOtra==1);
 
+    printf("Presione 'S' si desea ver en una lista las tareas pendientes y realizadas");
+    char verTareas;
+    fflush(stdin);
+    scanf("%c", &verTareas);
+    if(verTareas == 's' || verTareas == 'S'){
+        printf("\n------ Tareas Pendientes ------\n");
+        mostrarTareas(&TareasPendientes);
+        printf("--------------------------------------\n");
+        printf("------ Tareas Realizadas ------\n");
+        mostrarTareas(&TareasRealizadas);
+        printf("--------------------------------------\n");
+    }
 
 
 
@@ -114,5 +126,17 @@ void transferirTareas(Lista *pendientes, Lista *realizadas){
 }
 
 void mostrarTareas(Lista *lista){
-    
+    if(lista->cantidad == 0){
+        printf("NO HAY TAREAS PARA MOSTRAR\n");
+    }
+    else{ 
+        Nodo *aux = lista->L;
+        for(int i=0;i<lista->cantidad;i++){
+            printf("---------- TAREA ID: %d ----------\n", aux->T.TareaID);
+            printf("Descripcion: %s\n", aux->T.Descripcion);
+            printf("Duracion: %d\n", aux->T.Duracion);
+            printf("ID: %d\n", aux->T.TareaID);
+            aux = aux->Siguiente;
+        }
+    }
 }
