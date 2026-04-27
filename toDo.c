@@ -21,6 +21,7 @@ typedef struct Lista{
 
 void cargarTareasPendientes(Lista *lista, int *id);
 void transferirTareas(Lista *pendientes, Lista *realizadas);
+void mostrarTareas(Lista *lista);
 
 int main(){
 
@@ -43,15 +44,15 @@ int main(){
         fflush(stdin);
         scanf("%d",&pedirOtra);
     }while(pedirOtra==1);
-
+    
     do{
         transferirTareas(&TareasPendientes,&TareasRealizadas);
         printf("\nSi desea transferir otra tarea, presione '1': ");
         fflush(stdin);
         scanf("%d",&pedirOtra);
     }while(pedirOtra==1);
-    
-    
+
+
 
 
 return 0;
@@ -110,4 +111,8 @@ void transferirTareas(Lista *pendientes, Lista *realizadas){
             realizadas->cantidad++;
         }     
     }
+}
+
+void mostrarTareas(Lista *lista){
+    
 }
